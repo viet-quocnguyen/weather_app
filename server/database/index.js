@@ -11,7 +11,7 @@ class Database {
 
     this.connection.connect(err => {
       if (err) {
-        throw err;
+        console.log(err);
       } else {
         console.log("MySQL Connected");
       }
