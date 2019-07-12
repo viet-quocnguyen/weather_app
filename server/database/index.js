@@ -1,12 +1,14 @@
 var mysql = require("mysql");
 
+const key = require("../config/key");
+
 class Database {
   constructor() {
     this.connection = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "123456",
-      database: "weather_app"
+      host: key.HOST,
+      user: key.USER,
+      password: key.PASSWORD,
+      database: key.DATABASE
     });
 
     this.connection.connect(err => {
