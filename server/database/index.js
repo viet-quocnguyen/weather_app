@@ -15,19 +15,20 @@ class Database {
   }
 
   handleDisconnect() {
+    var self = this;
     this.connection = mysql.createConnection(db_config);
 
     this.connection.connect(function(err) {
       if (err) {
         console.log("error when connecting to db:", err);
-        setTimeout(this.handleDisconnect, 2000);
+        setTimeout(self.handleDisconnect, 2000);
       }
     });
 
     this.connection.on("error", function(err) {
       console.log("db error", err);
       if (err.code === "PROTOCOL_CONNECTION_LOST") {
-        this.handleDisconnect();
+        self.handleDisconnect();
       } else {
         throw err;
       }
