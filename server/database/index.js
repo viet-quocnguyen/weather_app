@@ -2,20 +2,34 @@ var mysql = require("mysql");
 
 const key = require("../config/key");
 
+const db_config = {
+  host: key.HOST,
+  user: key.USER,
+  password: key.PASSWORD,
+  database: key.DATABASE
+};
+
 class Database {
   constructor() {
-    this.connection = mysql.createConnection({
-      host: key.HOST,
-      user: key.USER,
-      password: key.PASSWORD,
-      database: key.DATABASE
+    this.handleDisconnect();
+  }
+
+  handleDisconnect() {
+    this.connection = mysql.createConnection(db_config);
+
+    this.connection.connect(function(err) {
+      if (err) {
+        console.log("error when connecting to db:", err);
+        setTimeout(this.handleDisconnect, 2000);
+      }
     });
 
-    this.connection.connect(err => {
-      if (err) {
-        console.log(err);
+    this.connection.on("error", function(err) {
+      console.log("db error", err);
+      if (err.code === "PROTOCOL_CONNECTION_LOST") {
+        handleDisconnect();
       } else {
-        console.log("MySQL Connected");
+        throw err;
       }
     });
   }
