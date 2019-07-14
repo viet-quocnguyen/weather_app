@@ -1,5 +1,4 @@
 const key = {
-  // mysql://bd450626d2f93b:8130b435@us-cdbr-iron-east-02.cleardb.net/heroku_968d3a9af07b45b?reconnect=true
   API_KEY:
     process.env.NODE_ENV === "production"
       ? process.env.API_KEY
